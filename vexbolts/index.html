@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEXBOLTS MASS UNFOLLOWING TIMER</title>
+</head>
+<body>
+    <h1>Countdown to 4:59 PM UTC</h1>
+    <div id="countdown"></div>
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+
+            // Current UTC time
+            const nowUTC = new Date(now.toISOString());
+
+            // Target time for today
+            let targetUTC = new Date(nowUTC);
+            targetUTC.setUTCHours(16, 59, 0, 0); // 16:59:00 UTC (4:59 PM)
+
+            // If the target time has passed today, set it for tomorrow
+            if (nowUTC > targetUTC) {
+                targetUTC.setUTCDate(targetUTC.getUTCDate() + 1);
+            }
+
+            // Calculate the difference in milliseconds
+            const diff = targetUTC - nowUTC;
+
+            // Calculate time components
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById('countdown').innerText =
+                `${hours}h ${minutes}m ${seconds}s`;
+
+            // Update every second
+            setTimeout(updateCountdown, 1000);
+        }
+
+        // Initialize the countdown
+        updateCountdown();
+    </script>
+</body>
+</html>
