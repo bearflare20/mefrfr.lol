@@ -6,35 +6,33 @@
     <title>VEXBOLTS MASS UNFOLLOWING TIMER</title>
 </head>
 <body>
-    <h1>Countdown to 4:59 PM UTC</h1>
+    <h1>VEXBOLTS MASS UNFOLLOWING TIMER</h1>
     <div id="countdown"></div>
     <script>
         function updateCountdown() {
             const now = new Date();
 
-            // Current UTC time
-            const nowUTC = new Date(now.toISOString());
-
-            // Target time for today
-            let targetUTC = new Date(nowUTC);
-            targetUTC.setUTCHours(16, 59, 0, 0); // 16:59:00 UTC (4:59 PM)
-
-            // If the target time has passed today, set it for tomorrow
-            if (nowUTC > targetUTC) {
-                targetUTC.setUTCDate(targetUTC.getUTCDate() + 1);
-            }
+            // Target date and time (December 31, 2024, at 4:59 PM UTC)
+            const targetUTC = new Date(Date.UTC(2024, 11, 31, 16, 59, 0)); // Months are 0-based
 
             // Calculate the difference in milliseconds
-            const diff = targetUTC - nowUTC;
+            const diff = targetUTC - now;
+
+            // If the countdown has ended
+            if (diff <= 0) {
+                document.getElementById('countdown').innerText = "The countdown has ended!";
+                return;
+            }
 
             // Calculate time components
-            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
             // Display the countdown
             document.getElementById('countdown').innerText =
-                `${hours}h ${minutes}m ${seconds}s`;
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
             // Update every second
             setTimeout(updateCountdown, 1000);
